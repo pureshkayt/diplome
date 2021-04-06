@@ -44,9 +44,9 @@ const Dashboard: FunctionComponent = () => {
     }
   }
 
-  const removeAvatar = async () => {
-    dispatch(requestAuth())
-    dispatch(loadAvatar({ url: '', id: '' }))
+  // const removeAvatar = async () => {
+  //   dispatch(requestAuth())
+  //   dispatch(loadAvatar({ url: '', id: '' }))
     // dispatch(
     //   ACTIONS.updateUserSuccess({
     //     ...state.user,

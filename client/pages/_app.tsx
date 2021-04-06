@@ -5,7 +5,6 @@ import { SnackbarProvider } from 'notistack'
 
 import ApolloClientProvider from '@providers/ApolloClientProvider'
 import AppController from '@controllers/AppController'
-//import ShopController from '@controllers/ShopController'
 import ThemeController from '@controllers/ThemeController'
 
 import 'sanitize.css'
@@ -27,11 +26,9 @@ const MyApp = ({
     <ThemeController>
       <AppController>
         <ApolloClientProvider client={apollo}>
-
             <SnackbarProvider>
               <Component {...pageProps} />
             </SnackbarProvider>
-
         </ApolloClientProvider>
       </AppController>
     </ThemeController>

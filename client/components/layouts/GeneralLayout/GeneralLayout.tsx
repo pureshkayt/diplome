@@ -7,7 +7,7 @@ import { Link } from '@ui/index'
 import { logoutUser } from '@utils/auth'
 import { AppContext } from '@providers/AppProvider'
 import { ILayoutProps } from '@interfaces/layouts'
-import { errorMessage } from '@utils/errorMessage'
+import { errorMessage } from '@hooks/auth/errorMessage'
 
 import { useStyles } from './GeneralLayout.styles'
 

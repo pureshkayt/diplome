@@ -46,13 +46,13 @@ const Dashboard: FunctionComponent = () => {
 
    const removeAvatar = async () => {
      dispatch(requestAuth())
-     // dispatch(loadAvatar({url = "", id = ""} ))
-    // dispatch(
-    //   ACTIONS.updateUserSuccess({
-    //     ...state.user,
-    //     avatar: { url: '', id: '' },
-    //   })
-    // )
+     dispatch(loadAvatar({url: "", id: ""} ))
+    dispatch(
+      ACTIONS.updateUserSuccess({
+        ...state.user,
+        avatar: { url: '', id: '' },
+      })
+    )
     await delAvatar(deleteFile, state.avatar?.id)
     dispatch(stopLoading())
   }

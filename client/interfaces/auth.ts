@@ -6,7 +6,7 @@ export interface IUserDataProps {
   confirmed: boolean
 }
 
-type IAvatarProps = {
+export type AvatarPropsType = {
   url: string
   id: string
 }
@@ -16,7 +16,7 @@ export interface IAppProps {
   user: IUserDataProps | null
   loading: boolean
   token: string | null
-  avatar: IAvatarProps
+  avatar: AvatarPropsType
 }
 
 export interface IRegisterProps {

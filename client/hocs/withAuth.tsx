@@ -26,17 +26,19 @@ const withAuth = (Component: any) => {
       }
       window.addEventListener('storage', syncLogout)
       if (!loading && data) {
-        dispatch(ACTIONS.authSuccess({ user: data.me }))
+        dispatch(ACTIONS.authSuccess({ user: { ...data.me, ...data.self } }))
       }
+
       if (error) {
-        enqueueSnackbar('Возникла ошибка', { variant: 'error' })
+        enqueueSnackbar('Вы не авторизованы', { variant: 'error' })
         syncLogout({ key: 'logout' })
       }
       return () => {
         window.removeEventListener('storage', syncLogout)
         window.localStorage.removeItem('logout')
       }
-    }, [data, loading, error])
+    }, [data, loading])
+
     if (state.token) {
       return <Component {...props} />
     }

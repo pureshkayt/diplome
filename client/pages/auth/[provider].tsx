@@ -8,7 +8,7 @@ import * as ACTIONS from '@actions/auth'
 import { AppContext } from '@providers/AppProvider'
 import { logoutUser } from '@utils/auth'
 import Loader from '@components/ui/Loader'
-import { errorMessage } from '@utils/errorMessage'
+import { errorMessage } from '@hooks/auth/errorMessage'
 
 const ProviderPage: NextPage = () => {
   const router = useRouter()
@@ -67,7 +67,7 @@ const ProviderPage: NextPage = () => {
       })
       router.push('/signin')
     }
-  }, [router])
+  }, [router, dispatch, enqueueSnackbar, provider])
   return <Loader />
 }
 

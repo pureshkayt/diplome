@@ -19,7 +19,7 @@ import SocialAuth from '../SocialAuth'
 import { AppContext } from '@providers/AppProvider'
 import { loginUser } from '@utils/auth'
 import LOGIN_USER from '@graphql/mutations/LoginUser'
-import { errorMessage } from '@utils/errorMessage'
+import { errorMessage } from '@hooks/auth/errorMessage'
 
 import { useStyles } from './Login.styles'
 

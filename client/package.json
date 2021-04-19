@@ -21,6 +21,9 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@material-ui/styles": "^4.10.0",
+    "@stripe/react-stripe-js": "^1.3.0",
+    "@stripe/stripe-js": "^1.13.0",
+    "algoliasearch": "^4.8.4",
     "apollo-client": "^2.6.10",
     "apollo-upload-client": "^14.1.3",
     "dotenv": "^8.2.0",
@@ -30,6 +33,8 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-google-recaptcha": "^2.1.0",
+    "react-instantsearch-dom": "^6.8.3",
+    "react-yandex-maps": "^4.6.0",
     "styled-components": "^5.2.0"
   },
   "devDependencies": {

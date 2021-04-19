@@ -8,6 +8,27 @@ const ME = gql`
       email
       confirmed
     }
+    self {
+      email_subscriber {
+        id
+        email
+      }
+      addresses {
+        id
+        address
+      }
+      avatar {
+        url
+        id
+      }
+      orders {
+        id
+        total
+        products
+        createdAt
+        address
+      }
+    }
   }
 `
 

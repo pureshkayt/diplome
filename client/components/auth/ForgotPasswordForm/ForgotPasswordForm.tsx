@@ -18,7 +18,7 @@ import {
 } from '@interfaces/auth'
 import { AppContext } from '@providers/AppProvider'
 import FORGOT_PASSWORD from '@graphql/mutations/ForgotPassword'
-import { errorMessage } from '@utils/errorMessage'
+import { errorMessage } from '@hooks/auth/errorMessage'
 import { forgotPasswordUser } from '@utils/auth'
 import { useSnackbar } from 'notistack'
 
@@ -49,30 +49,44 @@ const ForgotPasswordForm: FunctionComponent<IForgotProps> = ({
       .required('Email обязателен для заполнения'),
   })
 
-  const handleSubmit = useCallback(async (values: IForgotPasswordProps) => {
-    console.log(captchaToken)
-    if (captchaToken.length) {
-      try {
-        const data = await forgotPasswordUser(dispatch, forgotPassword, values)
-        if (!data.ok) {
-          enqueueSnackbar(errorMessage(data), {
+  const handleSubmit = useCallback(
+    async (values: IForgotPasswordProps) => {
+      console.log(captchaToken)
+      if (captchaToken.length) {
+        try {
+          const data = await forgotPasswordUser(
+            dispatch,
+            forgotPassword,
+            values
+          )
+          if (!data.ok) {
+            enqueueSnackbar(errorMessage(data), {
+              variant: 'error',
+            })
+          } else {
+            setEmailData(data.ok)
+            setFormikEmailData(values.email)
+          }
+        } catch (error) {
+          enqueueSnackbar(errorMessage(error), {
             variant: 'error',
           })
-        } else {
-          setEmailData(data.ok)
-          setFormikEmailData(values.email)
         }
-      } catch (error) {
-        enqueueSnackbar(errorMessage(error), {
+      } else {
+        enqueueSnackbar('Введите капчу', {
           variant: 'error',
         })
       }
-    } else {
-      enqueueSnackbar('Введите капчу', {
-        variant: 'error',
-      })
-    }
-  }, [])
+    },
+    [
+      setEmailData,
+      setFormikEmailData,
+      captchaToken,
+      dispatch,
+      enqueueSnackbar,
+      forgotPassword,
+    ]
+  )
 
   const handleCaptcha = (value) => {
     setCaptchaToken(value)

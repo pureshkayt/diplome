@@ -1,7 +1,30 @@
+export interface IOrderProps {
+  id: string
+  total: number
+  products: string
+}
+
+type IAvatarProps = {
+  url: string | undefined
+  id: string | undefined
+}
+
+export interface IProfileDataProps {
+  id: string
+  username: string
+  email: string
+  avatar: IAvatarProps
+}
+
 export interface IUserDataProps {
   id: string
   username: string
   email: string
+  avatar: IAvatarProps
+  confirmed: boolean
+  orders: any
+  addresses: any
+  email_subscriber: any
 }
 
 export interface IAppProps {
@@ -9,6 +32,7 @@ export interface IAppProps {
   user: IUserDataProps | null
   loading: boolean
   token: string | null
+  avatar: IAvatarProps
 }
 
 export interface IRegisterProps {
@@ -53,4 +77,20 @@ export interface IResetPasswordProps {
   password: string
   passwordConfirmation: string
   code: string
+}
+
+export interface IUpdateProps {
+  username: string
+  email: string
+  password: string
+  newPassword: string
+  newPasswordConfirm: string
+}
+
+export interface IUpdateMutationProps {
+  updateUser: IUserDataProps
+}
+
+export interface IUploadFileMutationProps {
+  url: string
 }

@@ -1,20 +1,16 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import { Button } from '@ui/index'
+import Button from '../Button'
+import renderer from 'react-test-renderer'
 
-const mockFn = jest.fn()
-
-describe('<Button />', () => {
-  it('should be defined', () => {
-    expect(Button).toBeDefined()
-  })
-  it('should render correctly', () => {
-    const tree = shallow(<Button>Text</Button>)
-    expect(tree).toMatchSnapshot()
-  })
-  it('should respond to click events', () => {
-    const tree = shallow(<Button onClick={mockFn}>Text</Button>)
-    tree.simulate('click')
-    expect(mockFn).toHaveBeenCalled()
-  })
+it('renders correctly', () => {
+  const tree = renderer.create(<Button>Some Text</Button>).toJSON()
+  expect(tree).toMatchSnapshot()
 })
+
+// import { render, fireEvent } from '@testing-library/react';
+// it('should respond to click events', () => {
+//   const handleClick = jest.fn()
+//   const instance = render(<Button {...Text.args} onClick={handleClick} />)
+//   fireEvent.click(instance.container.firstChild)
+//   expect(handleClick).toHaveBeenCalled()
+// })

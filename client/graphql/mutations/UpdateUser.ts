@@ -12,10 +12,12 @@ const UPDATE_USER = gql`
           id
           address
         }
+
         avatar {
           url
           id
         }
+
         orders {
           id
           total
@@ -23,6 +25,7 @@ const UPDATE_USER = gql`
           createdAt
           address
         }
+
       }
     }
   }

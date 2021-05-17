@@ -6,7 +6,7 @@ import MyAccount from '@components/account/MyAccount'
 import withAuth from '@hocs/withAuth'
 
 const MyAccountPage: NextPage = () => (
-  <Layout title="Мой аккаунт | FoodMarket">
+  <Layout title="Мой аккаунт | CherryPizza">
     <MyAccount />
   </Layout>
 )

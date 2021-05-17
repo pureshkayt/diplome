@@ -3,7 +3,6 @@ import React, {
   useContext,
   useState,
   ChangeEvent,
-  useEffect,
 } from 'react'
 import {
   Typography,
@@ -14,21 +13,6 @@ import {
   useMediaQuery,
 } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
-
-import {
-  AccountCircle,
-  AccountCircleOutlined,
-  ShoppingCart,
-  ShoppingCartOutlined,
-  Favorite,
-  FavoriteBorderOutlined,
-  Settings as SettingsFilled,
-  SettingsOutlined,
-  Room,
-  RoomOutlined,
-  Assignment,
-  AssignmentOutlined,
-} from '@material-ui/icons'
 
 import { Breadcrumbs, Divider, TabPanel } from '@ui/index'
 import { AppContext } from '@providers/AppProvider'
@@ -65,9 +49,23 @@ const MyAccount: FunctionComponent = () => {
     setValue(newValue)
   }
 
-  const theme = useTheme()
-  const isSmallWidth = useMediaQuery(theme.breakpoints.down('sm'))
-  const mdWidth = useMediaQuery(theme.breakpoints.down('md'))
+  const handleDialog = () => setDialogOpen((prevState: boolean) => !prevState)
+
+  const [deleteUser] = useMutation(DELETE_USER)
+
+  const confirmDelete = async () => {
+    try {
+      handleDialog()
+      const data = await delUser(dispatch, deleteUser, state?.user?.id)
+      if (!data.user) {
+        console.log('some problems')
+      } else {
+        await logoutUser(dispatch)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   return (
     <>
@@ -87,111 +85,114 @@ const MyAccount: FunctionComponent = () => {
       </Grid>
       <Divider type={'wide'} />
       <div className={classes.root}>
-        <Grid container direction={isSmallWidth ? 'column' : 'row'} spacing={3}>
-          <Grid item xs={isSmallWidth ? 12 : mdWidth ? 3 : 2}>
-            <Tabs
-              orientation={isSmallWidth ? 'horizontal' : 'vertical'}
-              variant="scrollable"
-              value={value}
-              onChange={handleChange}
-              aria-label="account tabs"
-              style={
-                isSmallWidth
-                  ? { borderBottom: `1px solid ${theme.palette.divider}` }
-                  : { borderRight: `1px solid ${theme.palette.divider}` }
-              }
-            >
-              <Tab
-                className={classes.tabs}
-                icon={
-                  value === 0 ? (
-                    <AccountCircle color={'secondary'} />
-                  ) : (
-                    <AccountCircleOutlined />
-                  )
-                }
-                label={state.user?.username || <Skeleton width={100} />}
-                {...a11yProps(0)}
-              />
-              <Tab
-                className={classes.tabs}
-                icon={
-                  value === 1 ? (
-                    <ShoppingCart color={'secondary'} />
-                  ) : (
-                    <ShoppingCartOutlined />
-                  )
-                }
-                label="Корзина"
-                {...a11yProps(1)}
-              />
-              <Tab
-                className={classes.tabs}
-                icon={
-                  value === 2 ? (
-                    <Assignment color={'secondary'} />
-                  ) : (
-                    <AssignmentOutlined />
-                  )
-                }
-                label="Заказы"
-                {...a11yProps(2)}
-              />
-              <Tab
-                className={classes.tabs}
-                icon={
-                  value === 3 ? (
-                    <Favorite color={'secondary'} />
-                  ) : (
-                    <FavoriteBorderOutlined />
-                  )
-                }
-                label="Избранное"
-                {...a11yProps(3)}
-              />
-              <Tab
-                className={classes.tabs}
-                icon={
-                  value === 4 ? <Room color={'secondary'} /> : <RoomOutlined />
-                }
-                label="Адреса"
-                {...a11yProps(4)}
-              />
-              <Tab
-                className={classes.tabs}
-                icon={
-                  value === 5 ? (
-                    <SettingsFilled color={'secondary'} />
-                  ) : (
-                    <SettingsOutlined />
-                  )
-                }
-                label="Настройки"
-                {...a11yProps(5)}
-              />
-            </Tabs>
+        <Tabs
+          orientation="vertical"
+          variant="scrollable"
+          value={value}
+          onChange={handleChange}
+          aria-label="Vertical tabs"
+          className={classes.tabs}
+        >
+          <Tab
+            label={state.user?.username || <Skeleton width={100} />}
+            {...a11yProps(0)}
+          />
+          <Tab label="Корзина" {...a11yProps(1)} />
+          <Tab label="Заказы" {...a11yProps(2)} />
+          <Tab label="Избранное" {...a11yProps(3)} />
+          <Tab label="Адреса" {...a11yProps(4)} />
+          <Tab label="Настройки" {...a11yProps(5)} />
+        </Tabs>
+        <TabPanel value={value} index={0}>
+          <Dashboard />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Grid
+            container
+            direction={'column'}
+            spacing={4}
+            alignItems={'center'}
+          >
+            <Grid item>
+              <Typography variant="h1">Корзина</Typography>
+            </Grid>
+            <Grid item></Grid>
           </Grid>
-          <Grid item xs={isSmallWidth ? 12 : mdWidth ? 9 : 10}>
-            <TabPanel value={value} index={0}>
-              <Dashboard />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              <Cart />
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-              <Orders />
-            </TabPanel>
-            <TabPanel value={value} index={3}>
-              <Wishlist />
-            </TabPanel>
-            <TabPanel value={value} index={4}>
-              <Addresses />
-            </TabPanel>
-            <TabPanel value={value} index={5}>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          Заказы
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          <Grid
+            container
+            direction={'column'}
+            spacing={4}
+            alignItems={'center'}
+          >
+            <Grid item>
+              <Typography variant="h1">Избранные товары</Typography>
+            </Grid>
+            <Grid item></Grid>
+          </Grid>
+        </TabPanel>
+        <TabPanel value={value} index={4}>
+          Адреса
+        </TabPanel>
+        <TabPanel value={value} index={5}>
+          <Grid
+            container
+            direction={'column'}
+            spacing={4}
+            alignItems={'center'}
+          >
+            <Grid item>
+              <Typography variant="h2">Настройки аккаунта</Typography>
+            </Grid>
+            <Grid item>
               <Settings />
-            </TabPanel>
+            </Grid>
+            <Grid item>
+              <Button
+                color={'secondary'}
+                variant={'outlined'}
+                onClick={handleDialog}
+              >
+                Удалить аккаунт
+              </Button>
+              <Dialog
+                open={dialogOpen}
+                // onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">
+                  Вы собираетесь удалить аккаунт {state.user?.username}?
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText
+                    id="alert-dialog-description"
+                    color={'textPrimary'}
+                  >
+                    Если вы не уверены в том, что хотите удалить аккаунт
+                    <b>&nbsp;{state.user?.username}</b>, нажмите кнопку ОТМЕНА
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleDialog} color="default" autoFocus>
+                    Отмена
+                  </Button>
+                  <Button
+                    onClick={confirmDelete}
+                    color="secondary"
+                    variant={'outlined'}
+                  >
+                    Подвердить
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </Grid>
           </Grid>
-        </Grid>
+        </TabPanel>
       </div>
     </>
   )

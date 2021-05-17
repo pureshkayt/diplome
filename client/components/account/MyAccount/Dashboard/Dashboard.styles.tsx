@@ -28,8 +28,5 @@ export const useStyles = makeStyles((theme: Theme) =>
     progress: {
       color: '#FFFFFF',
     },
-    removeButton: {
-      color: theme.palette.secondary.main,
-    },
   })
 )

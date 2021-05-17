@@ -1,6 +1,5 @@
 import * as ACTION_TYPES from '../types/auth'
-import {AvatarPropsType, IUserDataProps} from '@interfaces/auth'
-import { IAvatarProps } from '@ui/Avatar/Avatar'
+import { AvatarPropsType, IUserDataProps } from '@interfaces/auth'
 
 export const requestAuth = () => {
   return {

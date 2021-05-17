@@ -1,9 +1,4 @@
-import React, {
-  ChangeEvent,
-  FunctionComponent,
-  useContext,
-  useEffect,
-} from 'react'
+import React, { ChangeEvent, FunctionComponent, useContext } from 'react'
 import LinkIcon from '@material-ui/icons/Link'
 import { useMutation } from '@apollo/client'
 import { CircularProgress, Grid, Typography } from '@material-ui/core'
@@ -17,8 +12,7 @@ import { AppContext } from '@providers/AppProvider'
 
 import { useStyles } from './Dashboard.styles'
 
-import { loadAvatar, requestAuth, stopLoading } from '@actions/auth'
-import { delAvatar } from '@utils/account'
+import { addAvatar, delAvatar } from '@utils/account'
 import { Skeleton } from '@material-ui/lab'
 
 const Dashboard: FunctionComponent = () => {
@@ -28,45 +22,17 @@ const Dashboard: FunctionComponent = () => {
   const [deleteFile] = useMutation(DELETE_FILE)
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = (e.target.files as any)[0]
-    const fileData = {
-      file: file,
-      ref: 'user',
-      refId: state.user?.id,
-      field: 'avatar',
-      source: 'users-permissions',
-    }
-    if (file) {
-      try {
-        dispatch(requestAuth())
-        const { data } = await upload({
-          variables: fileData,
-        })
-        if (data) dispatch(loadAvatar(data.upload))
-        else return
-      } catch (e) {
-        dispatch(stopLoading())
-      }
-    }
+    await addAvatar(e, state?.user?.id, dispatch, upload)
   }
 
   const removeAvatar = async () => {
-    dispatch(requestAuth())
-    dispatch(loadAvatar({ url: '', id: '' }))
-    dispatch(
-      ACTIONS.updateUserSuccess({
-        ...state.user,
-        avatar: { url: '', id: '' },
-      })
-    )
-    await delAvatar(deleteFile, state.avatar?.id)
-    dispatch(stopLoading())
+    await delAvatar(dispatch, deleteFile, state.avatar.id)
   }
 
   return (
     <Grid container direction={'column'} spacing={2} alignItems={'center'}>
       <Grid item>
-        <Typography variant={'h1'}>
+        <Typography variant={'h1'} align={'center'}>
           {state.user ? (
             <>
               Добро пожаловать,&nbsp;
@@ -111,6 +77,7 @@ const Dashboard: FunctionComponent = () => {
             variant={'circle'}
             className={classes.avatar}
             src={state.avatar.url || ''}
+            alt={state.user?.username[0].toUpperCase()}
           >
             {state.loading ? (
               <CircularProgress className={classes.progress} />
@@ -122,11 +89,20 @@ const Dashboard: FunctionComponent = () => {
       </Grid>
       {state.avatar.url ? (
         <Grid item>
-          <Button variant={'text'} color={'secondary'} onClick={removeAvatar}>
+          <Button
+            variant={'text'}
+            color={'secondary'}
+            onClick={removeAvatar}
+            className={classes.removeButton}
+          >
             Удалить аватар
           </Button>
         </Grid>
-      ) : null}
+      ) : (
+        <Grid item>
+          <Typography variant={'body2'}>Добавьте ваш аватар</Typography>
+        </Grid>
+      )}
     </Grid>
   )
 }

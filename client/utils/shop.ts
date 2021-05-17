@@ -41,7 +41,6 @@ export const fetchShop = async (
     ) {
       await dispatch(ACTIONS.setProducts(productsData.products))
       console.log(state, productsData.products)
-
     }
   } catch (e) {
     console.log(e)
@@ -164,6 +163,7 @@ export const getTotal = (cart) => {
     .reduce((subtotal: number, item) => subtotal + item.price * item.count, 0)
     .toFixed(2)
 }
+
 // === PRODUCTS
 
 export const sortProducts = (

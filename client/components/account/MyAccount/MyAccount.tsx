@@ -3,6 +3,7 @@ import React, {
   useContext,
   useState,
   ChangeEvent,
+  useEffect,
 } from 'react'
 import {
   Typography,
@@ -49,23 +50,8 @@ const MyAccount: FunctionComponent = () => {
     setValue(newValue)
   }
 
-  const handleDialog = () => setDialogOpen((prevState: boolean) => !prevState)
-
-  const [deleteUser] = useMutation(DELETE_USER)
-
-  const confirmDelete = async () => {
-    try {
-      handleDialog()
-      const data = await delUser(dispatch, deleteUser, state?.user?.id)
-      if (!data.user) {
-        console.log('some problems')
-      } else {
-        await logoutUser(dispatch)
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
+  const theme = useTheme()
+  const isSmallWidth = useMediaQuery(theme.breakpoints.down('sm'))
 
   return (
     <>
@@ -85,114 +71,52 @@ const MyAccount: FunctionComponent = () => {
       </Grid>
       <Divider type={'wide'} />
       <div className={classes.root}>
-        <Tabs
-          orientation="vertical"
-          variant="scrollable"
-          value={value}
-          onChange={handleChange}
-          aria-label="Vertical tabs"
-          className={classes.tabs}
-        >
-          <Tab
-            label={state.user?.username || <Skeleton width={100} />}
-            {...a11yProps(0)}
-          />
-          <Tab label="Корзина" {...a11yProps(1)} />
-          <Tab label="Заказы" {...a11yProps(2)} />
-          <Tab label="Избранное" {...a11yProps(3)} />
-          <Tab label="Адреса" {...a11yProps(4)} />
-          <Tab label="Настройки" {...a11yProps(5)} />
-        </Tabs>
-        <TabPanel value={value} index={0}>
-          <Dashboard />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <Grid
-            container
-            direction={'column'}
-            spacing={4}
-            alignItems={'center'}
-          >
-            <Grid item>
-              <Typography variant="h1">Корзина</Typography>
-            </Grid>
-            <Grid item></Grid>
+        <Grid container direction={isSmallWidth ? 'column' : 'row'} spacing={3}>
+          <Grid item xs={isSmallWidth ? 12 : 2}>
+            <Tabs
+              orientation={isSmallWidth ? 'horizontal' : 'vertical'}
+              variant="scrollable"
+              value={value}
+              onChange={handleChange}
+              aria-label="account tabs"
+              style={
+                isSmallWidth
+                  ? { borderBottom: `1px solid ${theme.palette.divider}` }
+                  : { borderRight: `1px solid ${theme.palette.divider}` }
+              }
+            >
+              <Tab
+                label={state.user?.username || <Skeleton width={100} />}
+                {...a11yProps(0)}
+              />
+              <Tab label="Корзина" {...a11yProps(1)} />
+              <Tab label="Заказы" {...a11yProps(2)} />
+              <Tab label="Избранное" {...a11yProps(3)} />
+              <Tab label="Адреса" {...a11yProps(4)} />
+              <Tab label="Настройки" {...a11yProps(5)} />
+            </Tabs>
           </Grid>
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          Заказы
-        </TabPanel>
-        <TabPanel value={value} index={3}>
-          <Grid
-            container
-            direction={'column'}
-            spacing={4}
-            alignItems={'center'}
-          >
-            <Grid item>
-              <Typography variant="h1">Избранные товары</Typography>
-            </Grid>
-            <Grid item></Grid>
-          </Grid>
-        </TabPanel>
-        <TabPanel value={value} index={4}>
-          Адреса
-        </TabPanel>
-        <TabPanel value={value} index={5}>
-          <Grid
-            container
-            direction={'column'}
-            spacing={4}
-            alignItems={'center'}
-          >
-            <Grid item>
-              <Typography variant="h2">Настройки аккаунта</Typography>
-            </Grid>
-            <Grid item>
+          <Grid item xs={isSmallWidth ? 12 : 10}>
+            <TabPanel value={value} index={0}>
+              <Dashboard />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <Cart />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+              <Orders />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+              <Wishlist />
+            </TabPanel>
+            <TabPanel value={value} index={4}>
+              <Addresses />
+            </TabPanel>
+            <TabPanel value={value} index={5}>
               <Settings />
-            </Grid>
-            <Grid item>
-              <Button
-                color={'secondary'}
-                variant={'outlined'}
-                onClick={handleDialog}
-              >
-                Удалить аккаунт
-              </Button>
-              <Dialog
-                open={dialogOpen}
-                // onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-              >
-                <DialogTitle id="alert-dialog-title">
-                  Вы собираетесь удалить аккаунт {state.user?.username}?
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText
-                    id="alert-dialog-description"
-                    color={'textPrimary'}
-                  >
-                    Если вы не уверены в том, что хотите удалить аккаунт
-                    <b>&nbsp;{state.user?.username}</b>, нажмите кнопку ОТМЕНА
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleDialog} color="default" autoFocus>
-                    Отмена
-                  </Button>
-                  <Button
-                    onClick={confirmDelete}
-                    color="secondary"
-                    variant={'outlined'}
-                  >
-                    Подвердить
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            </Grid>
+            </TabPanel>
           </Grid>
-        </TabPanel>
+        </Grid>
       </div>
     </>
   )

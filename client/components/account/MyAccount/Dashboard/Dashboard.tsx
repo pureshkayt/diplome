@@ -17,8 +17,8 @@ import { AppContext } from '@providers/AppProvider'
 
 import { useStyles } from './Dashboard.styles'
 
-import { loadAvatar, requestAuth, stopLoading } from '@actions/auth'
-import { delAvatar } from '@utils/account'
+import { loadAvatar } from '@actions/auth'
+import { addAvatar, delAvatar } from '@utils/account'
 import { Skeleton } from '@material-ui/lab'
 
 const Dashboard: FunctionComponent = () => {
@@ -27,41 +27,22 @@ const Dashboard: FunctionComponent = () => {
   const [upload] = useMutation(UPLOAD)
   const [deleteFile] = useMutation(DELETE_FILE)
 
-  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = (e.target.files as any)[0]
-    const fileData = {
-      file: file,
-      ref: 'user',
-      refId: state.user?.id,
-      field: 'avatar',
-      source: 'users-permissions',
-    }
-    if (file) {
-      try {
-        dispatch(requestAuth())
-        const { data } = await upload({
-          variables: fileData,
+  useEffect(() => {
+    state.user?.avatar &&
+      !state?.avatar?.url?.length &&
+      dispatch(
+        loadAvatar({
+          url: state?.user?.avatar?.url || '',
+          id: state.user?.avatar?.id || '',
         })
-        if (data) dispatch(loadAvatar(data.upload))
-        else return
-      } catch (e) {
-        dispatch(stopLoading())
-      }
-    }
-  }
+      )
+  }, [state.avatar, state.user?.avatar, dispatch])
 
-  const removeAvatar = async () => {
-    dispatch(requestAuth())
-    dispatch(loadAvatar({ url: '', id: '' }))
-    dispatch(
-      ACTIONS.updateUserSuccess({
-        ...state.user,
-        avatar: { url: '', id: '' },
-      })
-    )
-    await delAvatar(deleteFile, state.avatar?.id)
-    dispatch(stopLoading())
-  }
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) =>
+    await addAvatar(e, state?.user?.id, dispatch, upload)
+
+  const removeAvatar = async () =>
+    await delAvatar(dispatch, deleteFile, state.avatar?.id)
 
   return (
     <Grid container direction={'column'} spacing={2} alignItems={'center'}>

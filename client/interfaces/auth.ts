@@ -20,19 +20,11 @@ export interface IUserDataProps {
   id: string
   username: string
   email: string
-
   avatar: IAvatarProps
   confirmed: boolean
   orders: any
   addresses: any
   email_subscriber: any
-
-}
-
-export type AvatarPropsType = {
-  url: string
-  id: string
-
 }
 
 export interface IAppProps {
@@ -40,8 +32,7 @@ export interface IAppProps {
   user: IUserDataProps | null
   loading: boolean
   token: string | null
-  avatar: AvatarPropsType
-
+  avatar: IAvatarProps
 }
 
 export interface IRegisterProps {

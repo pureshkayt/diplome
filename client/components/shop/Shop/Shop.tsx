@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react'
 import { Grid, Typography, useMediaQuery, useTheme } from '@material-ui/core'
 
-import SortingSelector from '@components/shop/components/SortingSelector'
+// import SortingSelector from '@components/shop/components/SortingSelector'
 
 import algoliasearch from 'algoliasearch/lite'
 import { InstantSearch } from 'react-instantsearch-dom'

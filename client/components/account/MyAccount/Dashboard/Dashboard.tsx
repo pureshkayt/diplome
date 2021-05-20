@@ -76,7 +76,7 @@ const Dashboard: FunctionComponent = () => {
           <Avatar
             variant={'circle'}
             className={classes.avatar}
-            src={state.avatar.url || ''}
+            src={state.user?.avatar.url || ''}
             alt={state.user?.username[0].toUpperCase()}
           >
             {state.loading ? (
@@ -87,7 +87,7 @@ const Dashboard: FunctionComponent = () => {
           </Avatar>
         </Badge>
       </Grid>
-      {state.avatar.url ? (
+      {state.user?.avatar.url ? (
         <Grid item>
           <Button
             variant={'text'}

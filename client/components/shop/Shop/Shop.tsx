@@ -10,11 +10,11 @@ import ProductSearchBox from '@components/shop/components/ProductSearchBox'
 import SideBar from '@components/shop/components/SideBar'
 import { useStyles } from '@components/shop/Shop/Shop.styles'
 
-const indexName = 'dev_PRODUCTS'
+const indexName = 'SHOP'
 
 const searchClient = algoliasearch(
-  'AQACOGUA51',
-  'b02a6b02a41eb2da855e9e6723e4691c'
+  'AAZ3N4VRJ1',
+  '9f52409621134650b85cf7d229439c20'
 )
 
 const Shop: FunctionComponent = () => {
@@ -45,24 +45,24 @@ const Shop: FunctionComponent = () => {
                 spacing={isSmallWidth ? 2 : 0}
               >
                 <Grid item>
-                  <SortingSelector
-                    defaultRefinement="products_publishing_date"
-                    items={[
-                      { value: 'products_publishing_date', label: 'Новинки' },
-                      {
-                        value: 'products_price_asc',
-                        label: `Дешевле`,
-                      },
-                      {
-                        value: 'products_price_desc',
-                        label: 'Дороже',
-                      },
-                      {
-                        value: 'products_rating',
-                        label: 'По рейтингу',
-                      },
-                    ]}
-                  />
+                  {/*<SortingSelector*/}
+                  {/*  defaultRefinement="products_publishing_date"*/}
+                  {/*  items={[*/}
+                  {/*    { value: 'products_publishing_date', label: 'Новинки' },*/}
+                  {/*    {*/}
+                  {/*      value: 'products_price_asc',*/}
+                  {/*      label: `Дешевле`,*/}
+                  {/*    },*/}
+                  {/*    {*/}
+                  {/*      value: 'products_price_desc',*/}
+                  {/*      label: 'Дороже',*/}
+                  {/*    },*/}
+                  {/*    {*/}
+                  {/*      value: 'products_rating',*/}
+                  {/*      label: 'По рейтингу',*/}
+                  {/*    },*/}
+                  {/*  ]}*/}
+                  {/*/>*/}
                 </Grid>
                 <Grid item>
                   <ProductSearchBox />

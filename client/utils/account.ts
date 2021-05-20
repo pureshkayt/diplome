@@ -44,7 +44,6 @@ export const delAvatar = async (dispatch, deleteFile, fileId) => {
       },
     })
     if (data.deleteFile?.file) {
-
       dispatch(stopLoading())
       return data.deleteFile
     }
@@ -133,6 +132,7 @@ export const makeOrder = async (
         },
       },
     })
+    console.log(data)
     if (data.createOrder) {
       dispatch(
         ACTIONS.updateUserSuccess({
@@ -243,4 +243,3 @@ export const makeTicket = async (createTicket, message, name, email, user) => {
     console.log(e)
   }
 }
-

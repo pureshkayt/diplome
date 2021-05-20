@@ -1,10 +1,10 @@
 module.exports = {
-  // definition: `
-  //   extend type UsersPermissionsMe {
-  //     avatar: UploadFile
-  //     orders(sort: String, limit: Int, start: Int, where: JSON): [Orders]
-  //   }
-  // `,
+   definition: `
+     extend type UsersPermissionsMe {
+       avatar: UploadFile
+       orders(sort: String, limit: Int, start: Int, where: JSON): [Orders]
+     }
+   `,
   query: `
     self: UsersPermissionsUser
   `,

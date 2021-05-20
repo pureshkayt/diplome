@@ -18,7 +18,7 @@ const Cart: FunctionComponent = () => {
   const total = useMemo(() => getTotal(cart), [cart])
   const [checkout, setCheckout] = useState<boolean>(false)
   const stripePromise = loadStripe(
-    'pk_test_51IP3byC5oJQ1RKxs51wji8IIJ8cjCO85RfQ8vZuqejaevMv4FsW1DVbsDw38uJE1vmNOdW71U73EaSegC2bF4ON500UUuRpSTT'
+    'pk_test_51IblwGFdjMXfozQnc6tWaiFM7fS76btdRCa1L1JmV0aJP30H2yYFONs43vi63yVYoa4kFKOfiXrzaH0QCV5sxhtc00J9py3Xsw'
   )
 
   const resetFunction = () => {

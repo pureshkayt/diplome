@@ -13,7 +13,6 @@ import { useStyles } from './GeneralLayout.styles'
 
 import { ThemeContext } from '@providers/ThemeProvider'
 
-
 // import { FoodMarket } from '@public/images/foodMarket.png'
 
 import * as ThemeActions from '@actions/theme'
@@ -24,14 +23,12 @@ import { useQuery } from '@apollo/client'
 import ME from '@graphql/queries/Me'
 import * as ACTIONS from '@actions/auth'
 
-
 const GeneralLayout: FunctionComponent<ILayoutProps> = ({ children }) => {
   const { state, dispatch } = useContext(AppContext)
   const { dispatch: themeDispatch } = useContext(ThemeContext)
   const { isAuthenticated } = state
   // const router = useRouter()
   const { enqueueSnackbar } = useSnackbar()
-
   const { data, loading } = useQuery(ME)
 
   useEffect(() => {
@@ -43,7 +40,6 @@ const GeneralLayout: FunctionComponent<ILayoutProps> = ({ children }) => {
   console.log(state)
 
   const classes = useStyles()
-
 
   const logout = async () => {
     try {
@@ -62,10 +58,8 @@ const GeneralLayout: FunctionComponent<ILayoutProps> = ({ children }) => {
   const swapTheme = async (t: ThemeType) =>
     await themeDispatch(ThemeActions.changeTheme(t))
 
-
   const theme = useTheme()
   const isSmallWidth = useMediaQuery(theme.breakpoints.down('sm'))
-
 
   return (
     <>
@@ -188,44 +182,6 @@ const GeneralLayout: FunctionComponent<ILayoutProps> = ({ children }) => {
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-
-            <Grid item>
-              <Grid container spacing={1}>
-                <Grid item>
-                  <span
-                    className={classes.linkStyle}
-                    onClick={() => swapTheme('Light')}
-                  >
-                    Светлая тема
-                  </span>
-                </Grid>
-                <Grid item>
-                  <span
-                    className={classes.linkStyle}
-                    onClick={() => swapTheme('Dark')}
-                  >
-                    Тёмная тема
-                  </span>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item>
-              <span
-                className={classes.linkStyle}
-                onClick={async () => await logout()}
-              >
-                Выход
-              </span>{' '}
-            </Grid>
-          </Grid>
-        ) : (
-          <Grid container justify={'flex-end'} spacing={1}>
-            <Grid item>
-              <Link href={'/signup'}>Регистрация</Link>
-            </Grid>
-            <Grid item>
-              <Link href={'/signin'}>Вход</Link>
             </Grid>
           </Grid>
         </Grid>
